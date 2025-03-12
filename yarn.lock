@@ -389,18 +389,7 @@
     protons-runtime "^5.5.0"
     uint8arraylist "^2.4.8"
 
-"@libp2p/bootstrap@^11.0.20":
-  version "11.0.31"
-  resolved "https://registry.npmjs.org/@libp2p/bootstrap/-/bootstrap-11.0.31.tgz"
-  integrity sha512-kJniyByoGrVArogL0+TGg+riFFj+uTj8+WWFYxUq+JVmKvv4QZCPwJ2GQExIdvqBU+NCeIRNO+kgKkIV/Yuu/w==
-  dependencies:
-    "@libp2p/interface" "^2.7.0"
-    "@libp2p/interface-internal" "^2.3.8"
-    "@libp2p/peer-id" "^5.1.0"
-    "@multiformats/mafmt" "^12.1.6"
-    "@multiformats/multiaddr" "^12.3.3"
-
-"@libp2p/bootstrap@^11.0.31":
+"@libp2p/bootstrap@^11.0.20", "@libp2p/bootstrap@^11.0.31":
   version "11.0.31"
   resolved "https://registry.yarnpkg.com/@libp2p/bootstrap/-/bootstrap-11.0.31.tgz#b9ebd4cb0704055a57a57449d1531e07e5cfb3f0"
   integrity sha512-kJniyByoGrVArogL0+TGg+riFFj+uTj8+WWFYxUq+JVmKvv4QZCPwJ2GQExIdvqBU+NCeIRNO+kgKkIV/Yuu/w==
@@ -924,6 +913,24 @@
     progress-events "^1.0.1"
     race-signal "^1.1.2"
     ws "^8.18.0"
+
+"@libp2p/webtransport@^5.0.33":
+  version "5.0.36"
+  resolved "https://registry.yarnpkg.com/@libp2p/webtransport/-/webtransport-5.0.36.tgz#f031ca7453566c0cce79d45546c37365df1d6b8a"
+  integrity sha512-JUb6Ez50EiAxtnEPG51bGBXlBk89GB71GmB447h/Q+ZHfXDAax7qr7ZxkYc58G0m+jHWI9UQoJmGLsLs0mFCzQ==
+  dependencies:
+    "@chainsafe/libp2p-noise" "^16.0.0"
+    "@libp2p/interface" "^2.7.0"
+    "@libp2p/peer-id" "^5.1.0"
+    "@libp2p/utils" "^6.5.8"
+    "@multiformats/multiaddr" "^12.3.3"
+    "@multiformats/multiaddr-matcher" "^1.6.0"
+    it-stream-types "^2.0.2"
+    multiformats "^13.3.1"
+    progress-events "^1.0.1"
+    race-signal "^1.1.2"
+    uint8arraylist "^2.4.8"
+    uint8arrays "^5.1.0"
 
 "@multiformats/dns@^1.0.3", "@multiformats/dns@^1.0.6":
   version "1.0.6"
