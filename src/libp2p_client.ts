@@ -36,7 +36,7 @@ export type Libp2pTypeC = Libp2p<{
 
 let pubKey: string
 
-export async function startLibp2p(): Promise<Libp2pTypeC> {
+export async function startClient(): Promise<Libp2pTypeC> {
   const delegatedClient = createDelegatedRoutingV1HttpApiClient('https://delegated-ipfs.dev')
   const relayListenAddrs = await getRelayListenAddrs(delegatedClient)
   let libp2p: Libp2pTypeC
