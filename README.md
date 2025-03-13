@@ -1,6 +1,7 @@
 # libp2p-ts
-Simple libp2p runetime with messaging based on 👉 https://github.com/libp2p/universal-connectivity
-#Universal-connectivity
+Simple libp2p client/relay typescript library with messaging based on 👉 https://github.com/libp2p/universal-connectivity
+
+# Universal-connectivity
 Realtime highly decentralised chat app.
 
 ![libp2p topology](libp2p-hero.svg)
