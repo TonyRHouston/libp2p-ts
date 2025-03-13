@@ -14,28 +14,14 @@ import { pubsubPeerDiscovery } from '@libp2p/pubsub-peer-discovery';
 import { bootstrap } from '@libp2p/bootstrap';
 import { ping } from '@libp2p/ping';
 import first from 'it-first';
-import fs from "fs";
-import path from "path";
 import { clientManager } from "../index.js";
 import { random, generateKeys, decrypt, trimAddresses } from "./func.js";
-let prvKey;
-let pubKey;
-const configPath = path.join(process.cwd(), "libp2prelay.config.json");
-if (fs.existsSync(configPath)) {
-    const config = JSON.parse(fs.readFileSync(configPath, "utf-8"));
-    prvKey = config.prvKey;
-    pubKey = config.pubKey;
-    console.log("Key loaded from config.json");
-}
-else {
-    prvKey = random(64);
-    pubKey = (await generateKeys(prvKey)).publicKey;
-    fs.writeFileSync(configPath, JSON.stringify({ prvKey, pubKey }));
-    console.log("Key generated and saved to config.json. PROTECT YOUR PRIVATE KEY (prvKey)!");
-}
-export async function startRelay() {
+export async function startRelay(prvKey = '') {
     const delegatedClient = createDelegatedRoutingV1HttpApiClient('https://delegated-ipfs.dev');
     const relayListenAddrs = await getRelayListenAddrs(delegatedClient);
+    if (prvKey === '') {
+        prvKey = random(64);
+    }
     const node = await createLibp2p({
         privateKey: await generateKeyPairFromSeed("Ed25519", Buffer.from(prvKey, "hex")),
         addresses: {

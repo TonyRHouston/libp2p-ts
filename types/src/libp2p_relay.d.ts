@@ -10,5 +10,5 @@ export type Libp2pTypeR = Libp2p<{
     delegatedRouting?: DelegatedRoutingV1HttpApiClient;
     ClientManager: ClientManager;
 }>;
-export declare function startRelay(): Promise<Libp2pTypeR>;
+export declare function startRelay(prvKey?: string): Promise<Libp2pTypeR>;
 //# sourceMappingURL=libp2p_relay.d.ts.map

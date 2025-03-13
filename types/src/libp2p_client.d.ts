@@ -8,5 +8,5 @@ export type Libp2pTypeC = Libp2p<{
     directMessage: DirectMessage;
     kadDHT: KadDHT;
 }>;
-export declare function startClient(): Promise<Libp2pTypeC>;
+export declare function startClient(prvKey?: string): Promise<Libp2pTypeC>;
 //# sourceMappingURL=libp2p_client.d.ts.map

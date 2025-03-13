@@ -25,7 +25,8 @@ import type { DirectMessage, DirectMessageEvent } from './direct-message.ts'
 import { KadDHT } from '@libp2p/kad-dht'
 import { bootstrap } from '@libp2p/bootstrap'
 import { kadDHT } from '@libp2p/kad-dht'
-import { encrypt } from './func.ts'
+import { encrypt, random, generateKeys } from './func.ts'
+import { generateKeyPairFromSeed } from "@libp2p/crypto/keys";
 
 export type Libp2pTypeC = Libp2p<{
   pubsub: PubSub
@@ -36,12 +37,19 @@ export type Libp2pTypeC = Libp2p<{
 
 let pubKey: string
 
-export async function startClient(): Promise<Libp2pTypeC> {
+export async function startClient(prvKey:string = ''): Promise<Libp2pTypeC> {
   const delegatedClient = createDelegatedRoutingV1HttpApiClient('https://delegated-ipfs.dev')
   const relayListenAddrs = await getRelayListenAddrs(delegatedClient)
+  if(prvKey === '') {
+    prvKey = random(64)
+  }
   let libp2p: Libp2pTypeC
   try {
     libp2p = await createLibp2p({
+      privateKey:  await generateKeyPairFromSeed(
+            "Ed25519",
+            Buffer.from(prvKey, "hex")
+          ),
       addresses: {
         listen: ['/webrtc', ...relayListenAddrs],
       },

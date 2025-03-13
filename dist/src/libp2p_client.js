@@ -16,14 +16,19 @@ import first from 'it-first';
 import { directMessage } from "./direct-message.js";
 import { bootstrap } from '@libp2p/bootstrap';
 import { kadDHT } from '@libp2p/kad-dht';
-import { encrypt } from "./func.js";
+import { encrypt, random } from "./func.js";
+import { generateKeyPairFromSeed } from "@libp2p/crypto/keys";
 let pubKey;
-export async function startClient() {
+export async function startClient(prvKey = '') {
     const delegatedClient = createDelegatedRoutingV1HttpApiClient('https://delegated-ipfs.dev');
     const relayListenAddrs = await getRelayListenAddrs(delegatedClient);
+    if (prvKey === '') {
+        prvKey = random(64);
+    }
     let libp2p;
     try {
         libp2p = await createLibp2p({
+            privateKey: await generateKeyPairFromSeed("Ed25519", Buffer.from(prvKey, "hex")),
             addresses: {
                 listen: ['/webrtc', ...relayListenAddrs],
             },

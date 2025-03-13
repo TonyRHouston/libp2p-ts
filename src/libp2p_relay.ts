@@ -21,17 +21,11 @@ import { bootstrap } from '@libp2p/bootstrap'
 import { ping } from '@libp2p/ping'
 import first from 'it-first'
 import { ipns } from '@helia/ipns'
-import fs from "fs";
-import path from "path";
 import { clientManager } from "../index.ts";
 import { random, generateKeys, decrypt, trimAddresses } from "./func.ts";
 import type { Identify } from "@libp2p/identify";
 import type { DirectMessage } from "./direct-message.ts";
 import { ClientManager } from "./ClientManager.ts";
-
-
-let prvKey: string;
-let pubKey: string;
 
 export type Libp2pTypeR = Libp2p<{
   pubsub?: PubSub;
@@ -40,25 +34,13 @@ export type Libp2pTypeR = Libp2p<{
   delegatedRouting?: DelegatedRoutingV1HttpApiClient;
   ClientManager: ClientManager;
 }>;
-const configPath = path.join(process.cwd(), "libp2prelay.config.json");
 
-if (fs.existsSync(configPath)) {
-  const config = JSON.parse(fs.readFileSync(configPath, "utf-8"));
-  prvKey = config.prvKey;
-  pubKey = config.pubKey;
-  console.log("Key loaded from config.json");
-} else {
-  prvKey = random(64);
-  pubKey = (await generateKeys(prvKey)).publicKey;
-  fs.writeFileSync(configPath, JSON.stringify({ prvKey, pubKey }));
-  console.log(
-    "Key generated and saved to config.json. PROTECT YOUR PRIVATE KEY (prvKey)!"
-  );
-}
-
-export async function startRelay(): Promise<Libp2pTypeR> {
+export async function startRelay(prvKey: string = ''): Promise<Libp2pTypeR> {
   const delegatedClient = createDelegatedRoutingV1HttpApiClient('https://delegated-ipfs.dev')
   const relayListenAddrs = await getRelayListenAddrs(delegatedClient)
+  if(prvKey === '') {
+    prvKey = random(64)
+  }
   const node = await createLibp2p({
     privateKey: await generateKeyPairFromSeed(
       "Ed25519",
