@@ -8,7 +8,8 @@
   "scripts": {
     "back": "git add . && git commit -m 'a' && git push",
     "postinstall": "cp ./.hotfix/index.d.ts ./node_modules/@libp2p/kad-dht/dist/src/index.d.ts && rm -r ./dist && rm -r ./types && tsc",
-    "dev": "rm -r ./dist && rm -r ./types && tsc && tsx src/dev.ts"
+    "dev": "tsx src/dev.ts",
+    "devjs": "node dist/src/dev.js"
   },
   "type": "module",
   "license": "MIT",

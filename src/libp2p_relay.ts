@@ -33,7 +33,7 @@ import { ClientManager } from "./ClientManager.ts";
 let prvKey: string;
 let pubKey: string;
 
-export type Libp2pType = Libp2p<{
+export type Libp2pTypeR = Libp2p<{
   pubsub?: PubSub;
   identify: Identify;
   directMessage: DirectMessage;
@@ -56,7 +56,7 @@ if (fs.existsSync(configPath)) {
   );
 }
 
-export async function startRelay(): Promise<Libp2pType> {
+export async function startRelay(): Promise<Libp2pTypeR> {
   const delegatedClient = createDelegatedRoutingV1HttpApiClient('https://delegated-ipfs.dev')
   const relayListenAddrs = await getRelayListenAddrs(delegatedClient)
   const node = await createLibp2p({
@@ -147,7 +147,7 @@ export async function startRelay(): Promise<Libp2pType> {
   return node;
 }
 
-export async function startClient(): Promise<Libp2pType> {
+export async function startClient(): Promise<Libp2pTypeR> {
   const delegatedClient = createDelegatedRoutingV1HttpApiClient('https://delegated-ipfs.dev')
   const relayListenAddrs = await getRelayListenAddrs(delegatedClient)
   const node = await createLibp2p({
@@ -238,7 +238,7 @@ export async function startClient(): Promise<Libp2pType> {
   return node;
 }
 
-async function handleEvents(libp2p: Libp2pType) {
+async function handleEvents(libp2p: Libp2pTypeR) {
   libp2p.addEventListener("peer:disconnect", (event) => {
     const { detail } = event;
     console.log(
@@ -270,7 +270,7 @@ async function handleEvents(libp2p: Libp2pType) {
   );
 }
 
-async function handshake(libp2p: Libp2pType, peerId: PeerId): Promise<boolean> {
+async function handshake(libp2p: Libp2pTypeR, peerId: PeerId): Promise<boolean> {
   const { privateKey, publicKey } = await generateKeys();
   await libp2p.services.directMessage.send(peerId, publicKey, "handshake");
   // Wait for a response and print it to the console.

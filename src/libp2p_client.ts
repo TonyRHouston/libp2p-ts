@@ -27,7 +27,7 @@ import { bootstrap } from '@libp2p/bootstrap'
 import { kadDHT } from '@libp2p/kad-dht'
 import { encrypt } from './func.ts'
 
-export type Libp2pType = Libp2p<{
+export type Libp2pTypeC = Libp2p<{
   pubsub: PubSub
   identify: Identify
   directMessage: DirectMessage
@@ -36,10 +36,10 @@ export type Libp2pType = Libp2p<{
 
 let pubKey: string
 
-export async function startLibp2p(): Promise<Libp2pType> {
+export async function startLibp2p(): Promise<Libp2pTypeC> {
   const delegatedClient = createDelegatedRoutingV1HttpApiClient('https://delegated-ipfs.dev')
   const relayListenAddrs = await getRelayListenAddrs(delegatedClient)
-  let libp2p: Libp2pType
+  let libp2p: Libp2pTypeC
   try {
     libp2p = await createLibp2p({
       addresses: {
@@ -103,7 +103,7 @@ function logPeerInfo(prefix: string, peerId: PeerId, multiaddrs?: Multiaddr[]) {
     })
   }
 }
-function logConnectionInfo(libp2p: Libp2pType, connection: Connection) {
+function logConnectionInfo(libp2p: Libp2pTypeC, connection: Connection) {
   console.log('🔗 Peer Connected:')
   console.log('├─ Peer:', connection.remotePeer.toString())
   console.log('├─ Connection #:', libp2p.getConnections().length)
@@ -124,7 +124,7 @@ function logDirectMessage(event: CustomEvent) {
   console.log('└─ Timestamp:', new Date().toISOString())
 }
 
-function setupEventListeners(libp2p: Libp2pType) {
+function setupEventListeners(libp2p: Libp2pTypeC) {
   libp2p.services.pubsub.addEventListener('message', async (event: CustomEvent<Message>) => { 
     logPubsubMessage(event)
     switch (event.detail.topic) {
@@ -161,7 +161,7 @@ function setupEventListeners(libp2p: Libp2pType) {
     logSubscriptionChange(event)
   })
 }
-function subscribeToTopics(libp2p: Libp2pType) {
+function subscribeToTopics(libp2p: Libp2pTypeC) {
   libp2p.services.pubsub.subscribe(CHAT_TOPIC)
   libp2p.services.pubsub.subscribe(CHAT_FILE_TOPIC)
   for (const topic of PUBSUB_PEER_DISCOVERY) {
