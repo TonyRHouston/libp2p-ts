@@ -1,6 +1,6 @@
 import { createLibp2p } from "libp2p";
-import { createDelegatedRoutingV1HttpApiClient, } from '@helia/delegated-routing-v1-http-api-client';
-import { peerIdFromString } from '@libp2p/peer-id';
+import { createDelegatedRoutingV1HttpApiClient, } from "@helia/delegated-routing-v1-http-api-client";
+import { peerIdFromString } from "@libp2p/peer-id";
 import { noise } from "@chainsafe/libp2p-noise";
 import { yamux } from "@chainsafe/libp2p-yamux";
 import { tcp } from "@libp2p/tcp";
@@ -9,17 +9,17 @@ import { directMessage } from "./direct-message.js";
 import { identify } from "@libp2p/identify";
 import { generateKeyPairFromSeed } from "@libp2p/crypto/keys";
 import { webSockets } from "@libp2p/websockets";
-import { gossipsub } from '@chainsafe/libp2p-gossipsub';
-import { pubsubPeerDiscovery } from '@libp2p/pubsub-peer-discovery';
-import { bootstrap } from '@libp2p/bootstrap';
-import { ping } from '@libp2p/ping';
-import first from 'it-first';
+import { gossipsub } from "@chainsafe/libp2p-gossipsub";
+import { pubsubPeerDiscovery } from "@libp2p/pubsub-peer-discovery";
+import { bootstrap } from "@libp2p/bootstrap";
+import { ping } from "@libp2p/ping";
+import first from "it-first";
 import { clientManager } from "../index.js";
 import { random, generateKeys, decrypt, trimAddresses } from "./func.js";
-export async function startRelay(prvKey = '') {
-    const delegatedClient = createDelegatedRoutingV1HttpApiClient('https://delegated-ipfs.dev');
+export async function startRelay(prvKey = "") {
+    const delegatedClient = createDelegatedRoutingV1HttpApiClient("https://delegated-ipfs.dev");
     const relayListenAddrs = await getRelayListenAddrs(delegatedClient);
-    if (prvKey === '') {
+    if (prvKey === "") {
         prvKey = random(64);
     }
     const node = await createLibp2p({
@@ -34,10 +34,12 @@ export async function startRelay(prvKey = '') {
             pubsubPeerDiscovery({
                 interval: 10000,
                 listenOnly: true,
-                topics: ['universal-connectivity-browser-peer-discovery'],
+                topics: ["universal-connectivity-browser-peer-discovery"],
             }),
             bootstrap({
-                list: ['/ip4/127.0.0.1/tcp/9089/ws/p2p/12D3KooWDq819c3UoichS1LfGuxrT5hNNTFKLv3hDxFvm9ZnuzFz'],
+                list: [
+                    "/ip4/127.0.0.1/tcp/9089/ws/p2p/12D3KooWDq819c3UoichS1LfGuxrT5hNNTFKLv3hDxFvm9ZnuzFz",
+                ],
             }),
         ],
         services: {
@@ -47,7 +49,7 @@ export async function startRelay(prvKey = '') {
             ClientManager: clientManager(),
             pubsub: gossipsub(),
             ping: ping(),
-        }
+        },
     });
     await node.start();
     await node.services.directMessage.start();
@@ -125,35 +127,40 @@ async function handleEvents(libp2p) {
     libp2p.services.directMessage.addEventListener("message", async (event) => await handleMessaging(event));
 }
 async function handshake(libp2p, peerId) {
-    const { privateKey, publicKey } = await generateKeys();
-    await libp2p.services.directMessage.send(peerId, publicKey, "handshake");
-    // Wait for a response and print it to the console.
-    const response = await new Promise((resolve) => {
-        const timeout = setTimeout(() => resolve(false), 6000);
-        libp2p.services.directMessage.addEventListener("message", async function handler(event) {
-            const { detail } = event;
-            if (detail.type == "handshake-response" &&
-                detail.connection.remotePeer.equals(peerId)) {
-                libp2p.services.directMessage.removeEventListener("message", handler);
-                const json = JSON.parse(await decrypt(privateKey, detail.content));
-                if (json.multiAddrs && json.type) {
-                    libp2p.services.ClientManager.add(detail.connection.remotePeer.toString(), {
-                        multiAddr: [...trimAddresses(json.multiAddrs)],
-                        type: json.type,
-                        pubKey: publicKey,
-                        prvKey: privateKey,
-                    });
-                    clearTimeout(timeout);
-                    resolve(true);
+    try {
+        const { privateKey, publicKey } = await generateKeys();
+        await libp2p.services.directMessage.send(peerId, publicKey, "handshake");
+        // Wait for a response and print it to the console.
+        const response = await new Promise((resolve) => {
+            const timeout = setTimeout(() => resolve(false), 6000);
+            libp2p.services.directMessage.addEventListener("message", async function handler(event) {
+                const { detail } = event;
+                if (detail.type == "handshake-response" &&
+                    detail.connection.remotePeer.equals(peerId)) {
+                    libp2p.services.directMessage.removeEventListener("message", handler);
+                    const json = JSON.parse(await decrypt(privateKey, detail.content));
+                    if (json.multiAddrs && json.type) {
+                        libp2p.services.ClientManager.add(detail.connection.remotePeer.toString(), {
+                            multiAddr: [...trimAddresses(json.multiAddrs)],
+                            type: json.type,
+                            pubKey: publicKey,
+                            prvKey: privateKey,
+                        });
+                        clearTimeout(timeout);
+                        resolve(true);
+                    }
+                    else {
+                        clearTimeout(timeout);
+                        resolve(false);
+                    }
                 }
-                else {
-                    clearTimeout(timeout);
-                    resolve(false);
-                }
-            }
+            });
         });
-    });
-    return response;
+        return response;
+    }
+    catch (e) {
+        return false;
+    }
 }
 async function handleMessaging(event) {
     const { detail } = event;
@@ -166,7 +173,7 @@ async function handleMessaging(event) {
 const getRelayListenAddr = (maddr, peer) => `${maddr.toString()}/p2p/${peer.toString()}/p2p-circuit`;
 async function getRelayListenAddrs(client) {
     const BOOTSTRAP_PEER_IDS = [
-        '12D3KooWFhXabKDwALpzqMbto94sB7rvmZ6M28hs9Y9xSopDKwQr',
+        "12D3KooWFhXabKDwALpzqMbto94sB7rvmZ6M28hs9Y9xSopDKwQr",
     ];
     const peers = await Promise.all(BOOTSTRAP_PEER_IDS.map((peerId) => first(client.getPeers(peerIdFromString(peerId)))));
     const relayListenAddrs = [];
@@ -174,8 +181,8 @@ async function getRelayListenAddrs(client) {
         if (p && p.Addrs.length > 0) {
             for (const maddr of p.Addrs) {
                 const protos = maddr.protoNames();
-                if (protos.includes('tls') && protos.includes('ws')) {
-                    if (maddr.nodeAddress().address === '127.0.0.1')
+                if (protos.includes("tls") && protos.includes("ws")) {
+                    if (maddr.nodeAddress().address === "127.0.0.1")
                         continue;
                     relayListenAddrs.push(getRelayListenAddr(maddr, p.ID));
                 }

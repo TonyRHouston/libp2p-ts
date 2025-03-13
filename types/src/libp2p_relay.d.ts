@@ -1,4 +1,4 @@
-import { DelegatedRoutingV1HttpApiClient } from '@helia/delegated-routing-v1-http-api-client';
+import { DelegatedRoutingV1HttpApiClient } from "@helia/delegated-routing-v1-http-api-client";
 import { Libp2p, PubSub } from "@libp2p/interface";
 import type { Identify } from "@libp2p/identify";
 import type { DirectMessage } from "./direct-message.ts";

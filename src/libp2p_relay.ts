@@ -2,11 +2,11 @@ import { createLibp2p } from "libp2p";
 import {
   createDelegatedRoutingV1HttpApiClient,
   DelegatedRoutingV1HttpApiClient,
-} from '@helia/delegated-routing-v1-http-api-client'
+} from "@helia/delegated-routing-v1-http-api-client";
 import { PeerId } from "@libp2p/interface";
 import { Libp2p, PubSub } from "@libp2p/interface";
-import { peerIdFromString } from '@libp2p/peer-id'
-import { Multiaddr } from '@multiformats/multiaddr'
+import { peerIdFromString } from "@libp2p/peer-id";
+import { Multiaddr } from "@multiformats/multiaddr";
 import { noise } from "@chainsafe/libp2p-noise";
 import { yamux } from "@chainsafe/libp2p-yamux";
 import { tcp } from "@libp2p/tcp";
@@ -15,12 +15,12 @@ import { directMessage, DirectMessageEvent } from "./direct-message.ts";
 import { identify } from "@libp2p/identify";
 import { generateKeyPairFromSeed } from "@libp2p/crypto/keys";
 import { webSockets } from "@libp2p/websockets";
-import { gossipsub } from '@chainsafe/libp2p-gossipsub'
-import { pubsubPeerDiscovery } from '@libp2p/pubsub-peer-discovery'
-import { bootstrap } from '@libp2p/bootstrap'
-import { ping } from '@libp2p/ping'
-import first from 'it-first'
-import { ipns } from '@helia/ipns'
+import { gossipsub } from "@chainsafe/libp2p-gossipsub";
+import { pubsubPeerDiscovery } from "@libp2p/pubsub-peer-discovery";
+import { bootstrap } from "@libp2p/bootstrap";
+import { ping } from "@libp2p/ping";
+import first from "it-first";
+import { ipns } from "@helia/ipns";
 import { clientManager } from "../index.ts";
 import { random, generateKeys, decrypt, trimAddresses } from "./func.ts";
 import type { Identify } from "@libp2p/identify";
@@ -35,11 +35,13 @@ export type Libp2pTypeR = Libp2p<{
   ClientManager: ClientManager;
 }>;
 
-export async function startRelay(prvKey: string = ''): Promise<Libp2pTypeR> {
-  const delegatedClient = createDelegatedRoutingV1HttpApiClient('https://delegated-ipfs.dev')
-  const relayListenAddrs = await getRelayListenAddrs(delegatedClient)
-  if(prvKey === '') {
-    prvKey = random(64)
+export async function startRelay(prvKey: string = ""): Promise<Libp2pTypeR> {
+  const delegatedClient = createDelegatedRoutingV1HttpApiClient(
+    "https://delegated-ipfs.dev"
+  );
+  const relayListenAddrs = await getRelayListenAddrs(delegatedClient);
+  if (prvKey === "") {
+    prvKey = random(64);
   }
   const node = await createLibp2p({
     privateKey: await generateKeyPairFromSeed(
@@ -56,10 +58,12 @@ export async function startRelay(prvKey: string = ''): Promise<Libp2pTypeR> {
       pubsubPeerDiscovery({
         interval: 10_000,
         listenOnly: true,
-        topics: ['universal-connectivity-browser-peer-discovery'],
+        topics: ["universal-connectivity-browser-peer-discovery"],
       }),
       bootstrap({
-        list: ['/ip4/127.0.0.1/tcp/9089/ws/p2p/12D3KooWDq819c3UoichS1LfGuxrT5hNNTFKLv3hDxFvm9ZnuzFz'],
+        list: [
+          "/ip4/127.0.0.1/tcp/9089/ws/p2p/12D3KooWDq819c3UoichS1LfGuxrT5hNNTFKLv3hDxFvm9ZnuzFz",
+        ],
       }),
     ],
     services: {
@@ -69,7 +73,7 @@ export async function startRelay(prvKey: string = ''): Promise<Libp2pTypeR> {
       ClientManager: clientManager(),
       pubsub: gossipsub(),
       ping: ping(),
-    }
+    },
   });
 
   await node.start();
@@ -143,9 +147,9 @@ async function handleEvents(libp2p: Libp2pTypeR) {
     const { detail } = event;
     const _handshake: boolean = await handshake(libp2p, detail);
     if (!_handshake)
-      libp2p.getConnections(detail).forEach((connection) => {
-        connection.close().then().catch();
-      });
+    libp2p.getConnections(detail).forEach((connection) => {
+      connection.close().then().catch();
+    });
   });
 
   //Project relay does not seek peers.
@@ -161,44 +165,52 @@ async function handleEvents(libp2p: Libp2pTypeR) {
   );
 }
 
-async function handshake(libp2p: Libp2pTypeR, peerId: PeerId): Promise<boolean> {
-  const { privateKey, publicKey } = await generateKeys();
-  await libp2p.services.directMessage.send(peerId, publicKey, "handshake");
-  // Wait for a response and print it to the console.
-  const response = await new Promise<boolean>((resolve) => {
-    const timeout = setTimeout(() => resolve(false), 6000);
-    libp2p.services.directMessage.addEventListener(
-      "message",
-      async function handler(event) {
-        const { detail } = event;
-        if (
-          detail.type == "handshake-response" &&
-          detail.connection.remotePeer.equals(peerId)
-        ) {
-          libp2p.services.directMessage.removeEventListener("message", handler);
-          const json = JSON.parse(await decrypt(privateKey, detail.content));
-          if (json.multiAddrs && json.type) {
-            libp2p.services.ClientManager.add(
-              detail.connection.remotePeer.toString(),
-              {
-                multiAddr: [...trimAddresses(json.multiAddrs)],
-                type: json.type,
-                pubKey: publicKey,
-                prvKey: privateKey,
-              }
+async function handshake(
+  libp2p: Libp2pTypeR,
+  peerId: PeerId
+): Promise<boolean> {
+  try {
+    const { privateKey, publicKey } = await generateKeys();
+    await libp2p.services.directMessage.send(peerId, publicKey, "handshake");
+    // Wait for a response and print it to the console.
+    const response = await new Promise<boolean>((resolve) => {
+      const timeout = setTimeout(() => resolve(false), 6000);
+      libp2p.services.directMessage.addEventListener(
+        "message",
+        async function handler(event) {
+          const { detail } = event;
+          if (
+            detail.type == "handshake-response" &&
+            detail.connection.remotePeer.equals(peerId)
+          ) {
+            libp2p.services.directMessage.removeEventListener(
+              "message",
+              handler
             );
-            clearTimeout(timeout);
-            resolve(true);
-          } else {
-            clearTimeout(timeout);
-            resolve(false);
+            const json = JSON.parse(await decrypt(privateKey, detail.content));
+            if (json.multiAddrs && json.type) {
+              libp2p.services.ClientManager.add(
+                detail.connection.remotePeer.toString(),
+                {
+                  multiAddr: [...trimAddresses(json.multiAddrs)],
+                  type: json.type,
+                  pubKey: publicKey,
+                  prvKey: privateKey,
+                }
+              );
+              clearTimeout(timeout);
+              resolve(true);
+            } else {
+              clearTimeout(timeout);
+              resolve(false);
+            }
           }
         }
-      }
-    );
-  });
+      );
+    });
 
-  return response;
+    return response;
+  } catch (e) {return false}
 }
 
 async function handleMessaging(
@@ -217,26 +229,31 @@ async function handleMessaging(
   }
 }
 
-
 const getRelayListenAddr = (maddr: Multiaddr, peer: PeerId): string =>
-  `${maddr.toString()}/p2p/${peer.toString()}/p2p-circuit`
-async function getRelayListenAddrs(client: DelegatedRoutingV1HttpApiClient): Promise<string[]> {
+  `${maddr.toString()}/p2p/${peer.toString()}/p2p-circuit`;
+async function getRelayListenAddrs(
+  client: DelegatedRoutingV1HttpApiClient
+): Promise<string[]> {
   const BOOTSTRAP_PEER_IDS = [
-    '12D3KooWFhXabKDwALpzqMbto94sB7rvmZ6M28hs9Y9xSopDKwQr',
-  ]
-  const peers = await Promise.all(BOOTSTRAP_PEER_IDS.map((peerId) => first(client.getPeers(peerIdFromString(peerId)))))
+    "12D3KooWFhXabKDwALpzqMbto94sB7rvmZ6M28hs9Y9xSopDKwQr",
+  ];
+  const peers = await Promise.all(
+    BOOTSTRAP_PEER_IDS.map((peerId) =>
+      first(client.getPeers(peerIdFromString(peerId)))
+    )
+  );
 
-  const relayListenAddrs = []
+  const relayListenAddrs = [];
   for (const p of peers) {
     if (p && p.Addrs.length > 0) {
       for (const maddr of p.Addrs) {
-        const protos = maddr.protoNames()
-        if (protos.includes('tls') && protos.includes('ws')) {
-          if (maddr.nodeAddress().address === '127.0.0.1') continue
-          relayListenAddrs.push(getRelayListenAddr(maddr, p.ID))
+        const protos = maddr.protoNames();
+        if (protos.includes("tls") && protos.includes("ws")) {
+          if (maddr.nodeAddress().address === "127.0.0.1") continue;
+          relayListenAddrs.push(getRelayListenAddr(maddr, p.ID));
         }
       }
     }
   }
-  return relayListenAddrs
+  return relayListenAddrs;
 }

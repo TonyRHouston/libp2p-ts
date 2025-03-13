@@ -1,6 +1,6 @@
 import { startRelay, trimAddresses } from "../index.ts";
 
-const node = await startRelay()
+const node = await startRelay("16f851cd2c9e1f321559b64bdc78fde2f30b7d6086602c8bd071fceb61974cda")
 node.getMultiaddrs().forEach((addr) => {
     console.log(`  - ${addr.toString()}`);
     });
