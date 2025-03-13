@@ -3,16 +3,13 @@ import type { Multiaddr } from "@multiformats/multiaddr";
 import pkg from "elliptic";
 const { ec } = pkg;
 const _ec = new ec("secp256k1");
-import { keccak256 } from "ethereum-cryptography/keccak";
-import { bytesToHex } from "ethereum-cryptography/utils";
 
-
-export async function generateKeys(prvKey: string = ''): Promise<{
+export async function generateKeys(prvKey_64hex: string = ''): Promise<{
   privateKey: string;
   publicKey: string;
 }> {
 
-  const privateKey = prvKey !== '' ? prvKey : random(64);
+  const privateKey = prvKey_64hex !== '' ? prvKey_64hex : random(64);
   console.log("Private Key: ", privateKey);
   const keyPair = _ec.keyFromPrivate(privateKey);
   const publicKey = keyPair.getPublic(false, "hex").slice(2);
@@ -87,6 +84,6 @@ export function random(len: number): string {
   }
   return tmp;
 }
-export function r(max: number) {
+function r(max: number) {
   return Math.floor(Math.random() * max);
 }

@@ -8,7 +8,7 @@ import { peerIdFromString } from '@libp2p/peer-id'
 import { noise } from '@chainsafe/libp2p-noise'
 import { yamux } from '@chainsafe/libp2p-yamux'
 import { Multiaddr } from '@multiformats/multiaddr'
-import type { Connection, PeerId, PeerInfo, SubscriptionChangeData } from '@libp2p/interface'
+import type { Connection, Message, PeerId, PeerInfo, SubscriptionChangeData } from '@libp2p/interface'
 import { gossipsub } from '@chainsafe/libp2p-gossipsub'
 import { webSockets } from '@libp2p/websockets'
 import { webTransport } from '@libp2p/webtransport'
@@ -21,7 +21,7 @@ import first from 'it-first'
 import { directMessage } from './direct-message.ts'
 import type { Libp2p, PubSub } from '@libp2p/interface'
 import type { Identify } from '@libp2p/identify'
-import type { DirectMessage } from './direct-message.ts'
+import type { DirectMessage, DirectMessageEvent } from './direct-message.ts'
 import { KadDHT } from '@libp2p/kad-dht'
 import { bootstrap } from '@libp2p/bootstrap'
 import { kadDHT } from '@libp2p/kad-dht'
@@ -125,7 +125,7 @@ function logDirectMessage(event: CustomEvent) {
 }
 
 function setupEventListeners(libp2p: Libp2pType) {
-  libp2p.services.pubsub.addEventListener('message', async (event: CustomEvent) => { //TODO: add type
+  libp2p.services.pubsub.addEventListener('message', async (event: CustomEvent<Message>) => { 
     logPubsubMessage(event)
     switch (event.detail.topic) {
       case 'peer-discovery':
@@ -133,7 +133,7 @@ function setupEventListeners(libp2p: Libp2pType) {
     }
   })
 
-  libp2p.services.directMessage.addEventListener('message',async  (event: CustomEvent) => { //TODO: add type
+  libp2p.services.directMessage.addEventListener('message',async  (event: CustomEvent<DirectMessageEvent>) => { 
     logDirectMessage(event)
     const { content, type } = event.detail
     switch (type) {

@@ -11,12 +11,12 @@ import { webRTC } from '@libp2p/webrtc';
 import { circuitRelayTransport } from '@libp2p/circuit-relay-v2';
 import { pubsubPeerDiscovery } from '@libp2p/pubsub-peer-discovery';
 import { ping } from '@libp2p/ping';
-import { BOOTSTRAP_PEER_IDS, CHAT_FILE_TOPIC, CHAT_TOPIC, PUBSUB_PEER_DISCOVERY } from './constants';
+import { BOOTSTRAP_PEER_IDS, CHAT_FILE_TOPIC, CHAT_TOPIC, PUBSUB_PEER_DISCOVERY } from "./constants.js";
 import first from 'it-first';
-import { directMessage } from './direct-message';
+import { directMessage } from "./direct-message.js";
 import { bootstrap } from '@libp2p/bootstrap';
 import { kadDHT } from '@libp2p/kad-dht';
-import { encrypt } from './func';
+import { encrypt } from "./func.js";
 let pubKey;
 export async function startLibp2p() {
     const delegatedClient = createDelegatedRoutingV1HttpApiClient('https://delegated-ipfs.dev');

@@ -2,8 +2,8 @@ import { encrypt as e, decrypt as d } from "eciesjs";
 import pkg from "elliptic";
 const { ec } = pkg;
 const _ec = new ec("secp256k1");
-export async function generateKeys(prvKey = '') {
-    const privateKey = prvKey !== '' ? prvKey : random(64);
+export async function generateKeys(prvKey_64hex = '') {
+    const privateKey = prvKey_64hex !== '' ? prvKey_64hex : random(64);
     console.log("Private Key: ", privateKey);
     const keyPair = _ec.keyFromPrivate(privateKey);
     const publicKey = keyPair.getPublic(false, "hex").slice(2);
@@ -69,7 +69,7 @@ export function random(len) {
     }
     return tmp;
 }
-export function r(max) {
+function r(max) {
     return Math.floor(Math.random() * max);
 }
 //# sourceMappingURL=func.js.map
