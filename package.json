@@ -1,13 +1,13 @@
 {
   "name": "libp2p-ts",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "main": "./dist",
   "bin": {
     "libp2p-ts": "./src"
   },
   "scripts": {
     "back": "git add . && git commit -m 'a' && git push",
-    "postinstall": "cp ./.hotfix/index.d.ts ./node_modules/@libp2p/kad-dht/dist/src/index.d.ts && rm -r ./dist && rm -r ./types && tsc",
+    "postinstall": "rm -r ./dist && rm -r ./types && tsc",
     "dev": "tsx src/dev.ts",
     "devjs": "node dist/src/dev.js"
   },
