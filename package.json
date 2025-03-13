@@ -1,13 +1,13 @@
 {
   "name": "libp2p-ts",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "main": "./dist",
   "bin": {
     "libp2p-ts": "./src"
   },
   "scripts": {
     "back": "git add . && git commit -m 'a' && git push",
-    "postinstall": "rm -r ./dist && rm -r ./types && tsc",
+    "build": "rm -r ./dist && rm -r ./types && tsc",
     "dev": "tsx src/dev.ts",
     "devjs": "node dist/src/dev.js"
   },
