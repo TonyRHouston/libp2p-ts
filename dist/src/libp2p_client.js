@@ -18,7 +18,7 @@ import { bootstrap } from '@libp2p/bootstrap';
 import { kadDHT } from '@libp2p/kad-dht';
 import { encrypt } from "./func.js";
 let pubKey;
-export async function startLibp2p() {
+export async function startClient() {
     const delegatedClient = createDelegatedRoutingV1HttpApiClient('https://delegated-ipfs.dev');
     const relayListenAddrs = await getRelayListenAddrs(delegatedClient);
     let libp2p;

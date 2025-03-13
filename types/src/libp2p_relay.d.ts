@@ -11,5 +11,4 @@ export type Libp2pTypeR = Libp2p<{
     ClientManager: ClientManager;
 }>;
 export declare function startRelay(): Promise<Libp2pTypeR>;
-export declare function startClient(): Promise<Libp2pTypeR>;
 //# sourceMappingURL=libp2p_relay.d.ts.map
