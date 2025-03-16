@@ -20,12 +20,13 @@ import { pubsubPeerDiscovery } from "@libp2p/pubsub-peer-discovery";
 import { bootstrap } from "@libp2p/bootstrap";
 import { ping } from "@libp2p/ping";
 import first from "it-first";
-import { ipns } from "@helia/ipns";
+import { HeliaWithRemotePins, heliaWithRemotePins } from '@helia/remote-pinning'
 import { clientManager } from "../index.ts";
 import { random, generateKeys, decrypt, trimAddresses } from "./func.ts";
 import type { Identify } from "@libp2p/identify";
 import type { DirectMessage } from "./direct-message.ts";
 import { ClientManager } from "./ClientManager.ts";
+import { createHelia } from 'helia'
 
 export type Libp2pTypeR = Libp2p<{
   pubsub?: PubSub;
@@ -130,7 +131,20 @@ export async function startRelay(prvKey: string = ""): Promise<Libp2pTypeR> {
     process.exit(0);
   });
 
+
   return node;
+}
+
+export async function startHeliaRelay(node: Libp2pTypeR): Promise<HeliaWithRemotePins<Libp2pTypeR>> {
+  const instance = heliaWithRemotePins(
+    await createHelia({
+      libp2p: node,
+    }),
+    {
+      endpointUrl: 'http://localhost:5001',
+    },
+  )
+  return instance
 }
 
 async function handleEvents(libp2p: Libp2pTypeR) {

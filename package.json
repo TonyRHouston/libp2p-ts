@@ -27,6 +27,7 @@
     "@libp2p/bootstrap": "^11.0.31",
     "@libp2p/circuit-relay-v2": "3.2.4",
     "@libp2p/crypto": "^5.0.15",
+    "@helia/remote-pinning": "^2.0.1",
     "@libp2p/identify": "3.0.23",
     "@libp2p/peer-id-factory": "^4.2.4",
     "@libp2p/pubsub-peer-discovery": "^11.0.1",

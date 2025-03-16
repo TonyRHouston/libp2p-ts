@@ -14,8 +14,10 @@ import { pubsubPeerDiscovery } from "@libp2p/pubsub-peer-discovery";
 import { bootstrap } from "@libp2p/bootstrap";
 import { ping } from "@libp2p/ping";
 import first from "it-first";
+import { heliaWithRemotePins } from '@helia/remote-pinning';
 import { clientManager } from "../index.js";
 import { random, generateKeys, decrypt, trimAddresses } from "./func.js";
+import { createHelia } from 'helia';
 export async function startRelay(prvKey = "") {
     const delegatedClient = createDelegatedRoutingV1HttpApiClient("https://delegated-ipfs.dev");
     const relayListenAddrs = await getRelayListenAddrs(delegatedClient);
@@ -103,6 +105,14 @@ export async function startRelay(prvKey = "") {
         process.exit(0);
     });
     return node;
+}
+export async function startHeliaRelay(node) {
+    const instance = heliaWithRemotePins(await createHelia({
+        libp2p: node,
+    }), {
+        endpointUrl: 'http://localhost:5001',
+    });
+    return instance;
 }
 async function handleEvents(libp2p) {
     libp2p.addEventListener("peer:disconnect", (event) => {

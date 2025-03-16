@@ -145,6 +145,36 @@
     uint8arraylist "^2.4.8"
     uint8arrays "^5.1.0"
 
+"@helia/bitswap@^2.0.5":
+  version "2.0.5"
+  resolved "https://registry.yarnpkg.com/@helia/bitswap/-/bitswap-2.0.5.tgz#3e351bbf83980a3cef96c6528cd7c1eb06e83e00"
+  integrity sha512-LdvjagmArJ6d67yFKIxU+H29be+u8teP3yQzL8CLPU2J6uG66Pwh0Bb7bU+D1uUyUcfLS4TqDrRh1VKR+EghYw==
+  dependencies:
+    "@helia/interface" "^5.2.1"
+    "@helia/utils" "^1.2.2"
+    "@libp2p/interface" "^2.2.1"
+    "@libp2p/logger" "^5.1.4"
+    "@libp2p/peer-collections" "^6.0.12"
+    "@libp2p/utils" "^6.2.1"
+    "@multiformats/multiaddr" "^12.3.3"
+    any-signal "^4.1.1"
+    interface-blockstore "^5.3.1"
+    interface-store "^6.0.2"
+    it-drain "^3.0.7"
+    it-length-prefixed "^10.0.1"
+    it-length-prefixed-stream "^1.2.0"
+    it-map "^3.1.1"
+    it-pipe "^3.0.1"
+    it-take "^3.0.6"
+    multiformats "^13.3.1"
+    p-defer "^4.0.1"
+    progress-events "^1.0.1"
+    protons-runtime "^5.5.0"
+    race-event "^1.3.0"
+    uint8-varint "^2.0.4"
+    uint8arraylist "^2.4.8"
+    uint8arrays "^5.1.0"
+
 "@helia/block-brokers@^4.0.4":
   version "4.0.4"
   resolved "https://registry.npmjs.org/@helia/block-brokers/-/block-brokers-4.0.4.tgz"
@@ -153,6 +183,24 @@
     "@helia/bitswap" "^2.0.4"
     "@helia/interface" "^5.2.0"
     "@helia/utils" "^1.2.1"
+    "@libp2p/interface" "^2.2.1"
+    "@libp2p/utils" "^6.2.1"
+    "@multiformats/multiaddr" "^12.3.3"
+    "@multiformats/multiaddr-matcher" "^1.6.0"
+    "@multiformats/multiaddr-to-uri" "^11.0.0"
+    interface-blockstore "^5.3.1"
+    interface-store "^6.0.2"
+    multiformats "^13.3.1"
+    progress-events "^1.0.1"
+
+"@helia/block-brokers@^4.1.0":
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/@helia/block-brokers/-/block-brokers-4.1.0.tgz#7e719d997e7e43285c142041c016bf3c859b338b"
+  integrity sha512-pzIhJeDLdF0VFkj9+LeLI6ZZORdH6/FwV7Q+IlIi2m5kAExqaYh8Oob6Dc7J5luu1atf69q4PWNIPYRiySmsmg==
+  dependencies:
+    "@helia/bitswap" "^2.0.5"
+    "@helia/interface" "^5.2.1"
+    "@helia/utils" "^1.2.2"
     "@libp2p/interface" "^2.2.1"
     "@libp2p/utils" "^6.2.1"
     "@multiformats/multiaddr" "^12.3.3"
@@ -216,6 +264,19 @@
     multiformats "^13.3.1"
     progress-events "^1.0.1"
 
+"@helia/interface@^5.2.1":
+  version "5.2.1"
+  resolved "https://registry.yarnpkg.com/@helia/interface/-/interface-5.2.1.tgz#b5d2748b08e121e14077df644d5649f1be0a5200"
+  integrity sha512-8eH3wOoOAHqcux2erXOm33oFBtKdpfHclepzn28bBYEl5wXhrc9JFeo2X3SYJeE0o/jxq0L39BprkYjgSSC91Q==
+  dependencies:
+    "@libp2p/interface" "^2.2.1"
+    "@multiformats/dns" "^1.0.6"
+    interface-blockstore "^5.3.1"
+    interface-datastore "^8.3.1"
+    interface-store "^6.0.2"
+    multiformats "^13.3.1"
+    progress-events "^1.0.1"
+
 "@helia/ipns@^8.1.0":
   version "8.1.0"
   resolved "https://registry.yarnpkg.com/@helia/ipns/-/ipns-8.1.0.tgz#26cb38ee798e1b36796c77459b724417a115e941"
@@ -233,6 +294,21 @@
     progress-events "^1.0.1"
     uint8arrays "^5.1.0"
 
+"@helia/remote-pinning@^2.0.1":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@helia/remote-pinning/-/remote-pinning-2.0.1.tgz#7585d15834f6c5d93efecf834dfb46ca3e2a02ab"
+  integrity sha512-7KJbA3MDvHUuQ0HVnin9JQIhJVKOWIf/i4sISUwciCMQJ1ombHQPpb+d+Vakg4Dus0sIvyQal+CybUq4/RYEiQ==
+  dependencies:
+    "@ipfs-shipyard/pinning-service-client" "^3.0.0"
+    "@libp2p/interface" "^2.1.2"
+    "@libp2p/logger" "^5.1.0"
+    "@multiformats/multiaddr" "^12.3.1"
+    delay "^6.0.0"
+    helia "^5.0.0"
+    multiformats "^13.3.0"
+    progress-events "^1.0.1"
+    race-signal "^1.1.0"
+
 "@helia/routers@^3.0.0":
   version "3.0.0"
   resolved "https://registry.npmjs.org/@helia/routers/-/routers-3.0.0.tgz"
@@ -240,6 +316,22 @@
   dependencies:
     "@helia/delegated-routing-v1-http-api-client" "^4.2.1"
     "@helia/interface" "^5.2.0"
+    "@libp2p/interface" "^2.2.1"
+    "@libp2p/peer-id" "^5.0.8"
+    "@multiformats/uri-to-multiaddr" "^8.0.0"
+    ipns "^10.0.0"
+    it-first "^3.0.6"
+    it-map "^3.1.1"
+    multiformats "^13.3.1"
+    uint8arrays "^5.1.0"
+
+"@helia/routers@^3.0.1":
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/@helia/routers/-/routers-3.0.1.tgz#4ca44e440959851d4de00a7e92a72f3e8b79c251"
+  integrity sha512-Eshr/8XJU4c0H8s1m5oBFB2YM0n3HBbxB3ny8DbsRFS8cAQ/L8ujnQomniMjZuuOhcNz8EEGwkUc07HCtAqAFA==
+  dependencies:
+    "@helia/delegated-routing-v1-http-api-client" "^4.2.1"
+    "@helia/interface" "^5.2.1"
     "@libp2p/interface" "^2.2.1"
     "@libp2p/peer-id" "^5.0.8"
     "@multiformats/uri-to-multiaddr" "^8.0.0"
@@ -314,6 +406,40 @@
     p-defer "^4.0.1"
     progress-events "^1.0.1"
     uint8arrays "^5.1.0"
+
+"@helia/utils@^1.2.2":
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/@helia/utils/-/utils-1.2.2.tgz#8b6094b9ccc7b112111002d9bbda2ead38b5196b"
+  integrity sha512-f8TC+gTQkMTVPaSDB8sSV+8W5/QIMX9XNWY2Xf0Y/WVzGm+Nz5o5wpVTT1kgBpILngXHSs4Xo+6aBQlafL15EA==
+  dependencies:
+    "@helia/interface" "^5.2.1"
+    "@ipld/dag-cbor" "^9.2.2"
+    "@ipld/dag-json" "^10.2.3"
+    "@ipld/dag-pb" "^4.1.3"
+    "@libp2p/interface" "^2.5.0"
+    "@libp2p/logger" "^5.1.8"
+    "@libp2p/utils" "^6.5.1"
+    "@multiformats/dns" "^1.0.6"
+    any-signal "^4.1.1"
+    blockstore-core "^5.0.2"
+    cborg "^4.2.6"
+    interface-blockstore "^5.3.1"
+    interface-datastore "^8.3.1"
+    interface-store "^6.0.2"
+    it-drain "^3.0.7"
+    it-filter "^3.1.1"
+    it-foreach "^2.1.1"
+    it-merge "^3.0.5"
+    mortice "^3.0.6"
+    multiformats "^13.3.1"
+    p-defer "^4.0.1"
+    progress-events "^1.0.1"
+    uint8arrays "^5.1.0"
+
+"@ipfs-shipyard/pinning-service-client@^3.0.0":
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/@ipfs-shipyard/pinning-service-client/-/pinning-service-client-3.0.0.tgz#c1745572927243ddbbcb2fee3edcad6d591cca8f"
+  integrity sha512-dKny78CMSCp5SbwhW7ZUHL9wlzgqrBKpmyLvc12utfx+EVjug+cDbwA7yWsbQAYD2raGFrmrpoIFXO0/DNgp7Q==
 
 "@ipld/dag-cbor@^9.2.1", "@ipld/dag-cbor@^9.2.2":
   version "9.2.2"
@@ -537,7 +663,7 @@
     progress-events "^1.0.0"
     uint8arraylist "^2.4.8"
 
-"@libp2p/interface@^2.0.0", "@libp2p/interface@^2.0.1", "@libp2p/interface@^2.2.0", "@libp2p/interface@^2.2.1", "@libp2p/interface@^2.4.0", "@libp2p/interface@^2.5.0", "@libp2p/interface@^2.6.1", "@libp2p/interface@^2.7.0":
+"@libp2p/interface@^2.0.0", "@libp2p/interface@^2.0.1", "@libp2p/interface@^2.1.2", "@libp2p/interface@^2.2.0", "@libp2p/interface@^2.2.1", "@libp2p/interface@^2.4.0", "@libp2p/interface@^2.5.0", "@libp2p/interface@^2.6.1", "@libp2p/interface@^2.7.0":
   version "2.7.0"
   resolved "https://registry.npmjs.org/@libp2p/interface/-/interface-2.7.0.tgz"
   integrity sha512-lWmfIGzbSaw//yoEWWJh8dXNDGSCwUyXwC7P1Q6jCFWNoEtCaB1pvwOGBtri7Db/aNFZryMzN5covoq5ulldnA==
@@ -600,7 +726,7 @@
     sanitize-filename "^1.6.3"
     uint8arrays "^5.1.0"
 
-"@libp2p/logger@^5.0.0", "@libp2p/logger@^5.0.1", "@libp2p/logger@^5.1.10", "@libp2p/logger@^5.1.13", "@libp2p/logger@^5.1.4", "@libp2p/logger@^5.1.8":
+"@libp2p/logger@^5.0.0", "@libp2p/logger@^5.0.1", "@libp2p/logger@^5.1.0", "@libp2p/logger@^5.1.10", "@libp2p/logger@^5.1.13", "@libp2p/logger@^5.1.4", "@libp2p/logger@^5.1.8":
   version "5.1.13"
   resolved "https://registry.npmjs.org/@libp2p/logger/-/logger-5.1.13.tgz"
   integrity sha512-JKyMlySG8T+LpItsj9Vma57yap/A0HqJ8ZdaHvgdoThhSOfqcRs8oRWO/2EG0Q5hUXugw//EAT+Ptj8MyNdbjQ==
@@ -860,9 +986,9 @@
     uint8arraylist "^2.4.8"
     uint8arrays "^5.1.0"
 
-"@libp2p/webrtc@^5.0.26":
+"@libp2p/webrtc@^5.0.26", "@libp2p/webrtc@^5.1.0":
   version "5.2.8"
-  resolved "https://registry.npmjs.org/@libp2p/webrtc/-/webrtc-5.2.8.tgz"
+  resolved "https://registry.yarnpkg.com/@libp2p/webrtc/-/webrtc-5.2.8.tgz#18f5f558cfc894d7ac778c6a4ef809ff4a492090"
   integrity sha512-Tm0IMXyA2pzAfgtri7VJGwtaRtRXpHi/YDnA7QWKoIkm+vJnCuAM2sgCKi7Bq+KuVvUVtj/tEptYjwte2rb7ng==
   dependencies:
     "@chainsafe/is-ip" "^2.0.2"
@@ -1717,6 +1843,45 @@ hasown@^2.0.2:
   integrity sha512-0hJU9SCPvmMzIBdZFqNPXWa6dqh7WdH0cII9y+CyS8rG3nL48Bclra9HmKhVVUHyPWNH5Y7xDwAB7bfgSjkUMQ==
   dependencies:
     function-bind "^1.1.2"
+
+helia@^5.0.0:
+  version "5.3.0"
+  resolved "https://registry.yarnpkg.com/helia/-/helia-5.3.0.tgz#d08c037ca2570febcb991573fc8b99b07b343543"
+  integrity sha512-mSM/zQqdoQWUicf90NEcVO1MPSjrzPro5vMe90cKdU0mv10BDk6aJDEImgQlN2x7EsmHCf+hOgmA9K3gZizK4w==
+  dependencies:
+    "@chainsafe/libp2p-noise" "^16.0.1"
+    "@chainsafe/libp2p-yamux" "^7.0.1"
+    "@helia/block-brokers" "^4.1.0"
+    "@helia/delegated-routing-v1-http-api-client" "^4.2.1"
+    "@helia/interface" "^5.2.1"
+    "@helia/routers" "^3.0.1"
+    "@helia/utils" "^1.2.2"
+    "@ipshipyard/libp2p-auto-tls" "^1.0.0"
+    "@libp2p/autonat" "^2.0.19"
+    "@libp2p/bootstrap" "^11.0.20"
+    "@libp2p/circuit-relay-v2" "^3.1.10"
+    "@libp2p/config" "^1.0.3"
+    "@libp2p/dcutr" "^2.0.18"
+    "@libp2p/identify" "^3.0.18"
+    "@libp2p/interface" "^2.5.0"
+    "@libp2p/kad-dht" "^14.2.3"
+    "@libp2p/keychain" "^5.0.14"
+    "@libp2p/mdns" "^11.0.20"
+    "@libp2p/mplex" "^11.0.20"
+    "@libp2p/ping" "^2.0.18"
+    "@libp2p/tcp" "^10.0.18"
+    "@libp2p/tls" "^2.0.15"
+    "@libp2p/upnp-nat" "^3.1.1"
+    "@libp2p/webrtc" "^5.1.0"
+    "@libp2p/websockets" "^9.1.5"
+    "@multiformats/dns" "^1.0.6"
+    blockstore-core "^5.0.2"
+    datastore-core "^10.0.2"
+    interface-blockstore "^5.3.1"
+    interface-datastore "^8.3.1"
+    ipns "^10.0.0"
+    libp2p "^2.3.1"
+    multiformats "^13.3.1"
 
 helia@^5.2.1:
   version "5.2.1"
